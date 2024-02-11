@@ -1,9 +1,21 @@
 from model import Recept
-
 import motor.motor_asyncio
+from motor.motor_asyncio import (
+    AsyncIOMotorClient,
+    AsyncIOMotorCollection,
+)
 
-client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017')
-
+#client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017')
+client = AsyncIOMotorClient(
+# username="user",
+# password="secret",
+ connectTimeoutMS=5000,
+ socketTimeoutMS=5000,
+ authSource="admin",
+ host="host.docker.internal",
+ port=27017,
+ directConnection=True
+)
 
 database = client.Recepti # ime baze podataka
 collection = database.podaci # ime tablice u bazi
@@ -33,3 +45,4 @@ async def update_recept(title,autor,desc):
 async def remove_recept(title):
     await collection.delete_one({"title": title})
     return True
+
