@@ -1,0 +1,33 @@
+
+version: '3.8'
+
+services:
+  webapp:
+    build: .
+    environment:
+      - DATABASE_HOST=mongo
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+
+  mongo:
+    image: mongo
+    networks:
+      - webnet
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - webapp
+    networks:
+      - webnet
+
+networks:
+  webnet:

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from database import (
     fetch_one_recept,
     fetch_all_recepte,
@@ -52,3 +53,6 @@ async def delete_recept(title):
     if response:
         return "Obrisano"
     raise HTTPException(404, f"nema recepta pod ovim imenom {title}")
+
+    
+
